@@ -1,0 +1,34 @@
+version: '3.9'
+
+services:
+
+  app:
+    build:
+      context: .
+    image: &src src
+    ports:
+      - 8000:8000
+    volumes:
+      - ./src:/src
+    env_file:
+      - .env
+    command: >
+      sh -c ' python manage.py migrate && python manage.py runserver 0.0.0.0:8000'
+    links:
+      - db
+    depends_on:
+      - db
+
+  db:
+    image: postgres:12-alpine
+    volumes:
+      - db-data:/var/lib/db
+    environment:
+      - POSTGRES_DB=db_name
+      - POSTGRES_USER=db_user
+      - POSTGRES_PASSWORD=db_pass
+    ports:
+      - 5432:5432
+
+volumes:
+  db-data:
