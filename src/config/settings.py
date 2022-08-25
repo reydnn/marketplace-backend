@@ -11,9 +11,11 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 import os
+
+from django.utils.translation import gettext_lazy
+
 import environ
-from pathlib import Path
-from django.utils.translation import gettext_lazy 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ROOT_DIR = environ.Path(__file__) - 4
@@ -26,7 +28,7 @@ env.read_env()
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env("SECRET_KEY") #django-insecure-#=^ul4!(w^6o)-v=)@r0yz06c$85g1r077-(q6q3-hib4x1)@c
+SECRET_KEY = env("SECRET_KEY")  # django-insecure-#=^ul4!(w^6o)-v=)@r0yz06c$85g1r077-(q6q3-hib4x1)@c
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -46,9 +48,12 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "apps.orders",
+    "apps.products",
+    "apps.users",
     "rest_framework",
     "drf_spectacular",
-    "django_db_logger"
+    "django_db_logger",
 ]
 
 SPECTACULAR_SETTINGS = {
@@ -191,3 +196,5 @@ REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "utils.config_paginator.StandardResultsSetPagination",
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
+
+AUTH_USER_MODEL = "users.CustomUser"

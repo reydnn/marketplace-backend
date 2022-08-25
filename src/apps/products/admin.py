@@ -1,3 +1,14 @@
 from django.contrib import admin
 
-# Register your models here.
+from apps.products.models import Product, Category
+
+
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display: list[str] = ["name"]
+
+
+@admin.register(Product)
+class ProductAdmin(admin.ModelAdmin):
+    list_display: list[str] = ["name", "price", "stock", "available", "created", "updated"]
+    list_filter: list[str] = ["available", "created"]

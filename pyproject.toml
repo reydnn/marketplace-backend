@@ -11,6 +11,7 @@ djangorestframework = "^3.13.1"
 django-environ = "^0.9.0"
 drf-spectacular = "^0.23.1"
 django-db-logger = "^0.1.12"
+psycopg2-binary = "^2.9.3"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
@@ -26,16 +27,13 @@ build-backend = "poetry.core.masonry.api"
 line-length = 120
 target-version = ['py310']
 include = '\.pyi?$'
-exclude = '''
-^/(
-  (
-      \.data
-    | \.venv
-  )
-)
-'''
+force-exclude='/migrations/'
 
 [tool.isort]
-profile = "black"
-line_length = 120
-skip = ["migrations", ".venv"]
+profile="black"
+filter_files="true"
+known_django = "django"
+known_first_party = 'apps'
+sections = ['STDLIB', 'DJANGO', 'THIRDPARTY', 'FIRSTPARTY', 'LOCALFOLDER' ]
+length_sort="True"
+skip_glob=["*/migrations/*"]
