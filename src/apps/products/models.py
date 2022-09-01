@@ -20,7 +20,12 @@ class Category(models.Model):
 class Product(models.Model):
     """Продукт"""
 
-    category = models.ForeignKey(Category, related_name="products", on_delete=models.SET_NULL, null=True)
+    category = models.ForeignKey(
+        Category,
+        related_name="products",
+        on_delete=models.SET_NULL,
+        null=True,
+    )
     name = models.CharField(
         max_length=200,
         db_index=True,
@@ -34,15 +39,16 @@ class Product(models.Model):
         decimal_places=2,
     )
     stock = models.PositiveIntegerField()
-    available = models.BooleanField(
-        default=True,
-    )
     created = models.DateTimeField(
         auto_now_add=True,
     )
     updated = models.DateTimeField(
         auto_now=True,
     )
+
+    @property
+    def available(self):
+        return bool(self.stock)
 
     class Meta:
         verbose_name = "Продукт"

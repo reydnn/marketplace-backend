@@ -11,4 +11,4 @@ class CategoryAdmin(admin.ModelAdmin):
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display: list[str] = ["name", "price", "stock", "available", "created", "updated"]
-    list_filter: list[str] = ["available", "created"]
+    list_filter: list[str] = ["created"]
