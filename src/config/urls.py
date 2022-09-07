@@ -27,7 +27,7 @@ from drf_spectacular.views import (
 # apps urls
 urlpatterns = [
     # path("auth/", include("apps.users.urls")),
-    path("products/", include("apps.products.urls")),
+    path("catalog/", include("apps.catalog.urls")),
     # path("orders/", include("apps.orders.urls")),
 ]
 

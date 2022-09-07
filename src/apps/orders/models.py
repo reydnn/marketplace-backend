@@ -1,7 +1,7 @@
 from django.db import models
 
 from apps.users.models import CustomUser
-from apps.products.models import Product
+from apps.catalog.models import Product
 
 
 class Payment(models.TextChoices):
