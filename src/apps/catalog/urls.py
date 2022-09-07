@@ -1,14 +1,17 @@
 from django.urls import path, include
 
-from rest_framework.routers import DefaultRouter
+from rest_framework_nested import routers
 
 from apps.catalog.views import CategoryViewSet, ProductsViewSet
 
-router = DefaultRouter()
+categories_router = routers.SimpleRouter()
+categories_router.register("categories", CategoryViewSet)
 
-router.register("products", ProductsViewSet)
-router.register("categories", CategoryViewSet)
+product_router = routers.NestedSimpleRouter(categories_router, "categories", lookup="categories")
+product_router.register("products", ProductsViewSet, basename="categories-products")
+
 
 urlpatterns = [
-    path("", include(router.urls)),
+    path("", include(categories_router.urls)),
+    path("", include(product_router.urls)),
 ]
