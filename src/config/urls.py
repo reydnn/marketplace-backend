@@ -28,7 +28,7 @@ from drf_spectacular.views import (
 urlpatterns = [
     # path("auth/", include("apps.users.urls")),
     path("catalog/", include("apps.catalog.urls")),
-    # path("orders/", include("apps.orders.urls")),
+    path("orders/", include("apps.orders.urls")),
 ]
 
 # swagger urls
