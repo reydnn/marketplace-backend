@@ -1,6 +1,12 @@
+from django.db import IntegrityError
+
 from core.exceptions import ProductNotFoundError, ProductNotAvailableError
 from apps.catalog.models import Product
-from core.error_messages import PRODUCT_NOT_FOUND_ERROR, PRODUCT_NOT_AVAILABLE_ERROR
+from core.error_messages import (
+    PRODUCT_QUANTITY_ERROR,
+    PRODUCT_NOT_FOUND_ERROR,
+    PRODUCT_NOT_AVAILABLE_ERROR,
+)
 
 
 class OrderService:
@@ -22,6 +28,14 @@ class OrderService:
     def _update_product(self, product: Product, item_qunatity: int):
         if product.available:
             new_stock = product.stock - item_qunatity
-            Product.objects.filter(pk=product.id).update(stock=new_stock)
+            try:
+                Product.objects.filter(pk=product.id).update(stock=new_stock)
+            except IntegrityError:
+                raise ProductNotAvailableError(
+                    PRODUCT_QUANTITY_ERROR.format(
+                        id=product.pk,
+                        quantity=product.stock,
+                    )
+                )
         else:
             raise ProductNotAvailableError(PRODUCT_NOT_AVAILABLE_ERROR.format(product.pk))

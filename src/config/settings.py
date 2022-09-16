@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 import os
+from datetime import timedelta
 
 from django.utils.translation import gettext_lazy
 
@@ -54,6 +55,8 @@ INSTALLED_APPS = [
     "rest_framework",
     "drf_spectacular",
     "django_db_logger",
+    "djoser",
+    "rest_framework_simplejwt",
 ]
 
 SPECTACULAR_SETTINGS = {
@@ -198,4 +201,23 @@ REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
+DJOSER = {
+    "PASSWORD_RESET_CONFIRM_URL": "#/password/reset/confirm/{uid}/{token}",
+    "USERNAME_RESET_CONFIRM_URL": "#/username/reset/confirm/{uid}/{token}",
+    "ACTIVATION_URL": "#/activate/{uid}/{token}",
+    "SEND_ACTIVATION_EMAIL": True,
+    "SERIALIZERS": {
+        "user_create": "apps.users.serializers.CustomUserRegistrationSerializer",
+        "user": "apps.users.serializers.CustomUserSerializer",
+        "current_user": "apps.users.serializers.CustomUserSerializer",
+    },
+}
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=100),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1000),
+}
+
 AUTH_USER_MODEL = "users.CustomUser"
+
+ATOMIC_REQUESTS = True

@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 from django.db import models
 
 from apps.users.models import CustomUser
@@ -57,7 +59,7 @@ class OrderItem(models.Model):
 
     @property
     def subtotal(self):
-        return self.product.price * self.quantity
+        return Decimal(self.product.price) * self.quantity
 
     def __str__(self):
         return str(self.id)
